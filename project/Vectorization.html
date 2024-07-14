@@ -35,7 +35,7 @@
 	this paper proposes a novel pyramid fusion network (PFNet) to conduct semantic segmentation of the large-size image in an end-to-end manner. Under the constraint of the global semantic segmentation result,
 	a new inflection-point perception network (IPNet) is proposed to generate a set of stable points to depict the boundary of each element. Extensive experiments on building, water and road datasets,
 	where each image has over 100 million pixels, show that our method outperforms the existing vector mapping methods with a large margin.</p>
-	<img src="/figure/framework.pdf" width="800px">
+	<img src="/figure/framework.png" width="800px">
 
 <h2 id="PFNet">PFNet</h2>
 <p>PFNet is meticulously designed for semantic segmentation of large-size VHR remote sensing imagery. Firstly, by employing a hierarchically organized representation of the large-size VHR image,
@@ -43,7 +43,7 @@
 	an Adaptive Fusion Architecture (AFA) is proposed to fuse information from different field-of-views.
 	Finally, PFNet leverages a novel pyramid fusion loss to balance the contribution from different layers,
 	ensuring robust semantic segmentation of geographical elements in large-size VHR remote sensing imagery.</p>
-<img src="/figure/pfnet.pdf" width="800px">
+<img src="/figure/pfnet.png" width="800px">
   
 <h2 id="IPNet">IPNet</h2>
 <p> IPNet is specifically designed for refining the coarse contour of each instance in the semantic segmentation result
@@ -55,7 +55,7 @@
 	Subsequently, 
 	image patches centered on the perturbed points are fed into an effective Semantic-Guided Point Perception Architecture (SPA) to detect inflection-points,
 	and a joint structure-semantic loss is applied to supervise this process.</p>
-<img src="/figure/ipnet.pdf" width="800px">
+<img src="/figure/ipnet.png" width="800px">
 
 <h2 id="VHR-road dataset">VHR-road dataset</h2>
 <p> Until now,
@@ -106,7 +106,7 @@
 			Moreover, each identified issue from the checking process was addressed to guarantee the overall quality and reliability of the annotated dataset,
 			which sufficiently fulfills the necessities for the algorithmic evaluation.
 			Some annotated samples in our dataset are shown in \figref{fig:vhrroad}.</p>
-		<img src="/figure/vhrroad.pdf" width="800px">	
+		<img src="/figure/vhrroad.png" width="800px">	
 </div>
 <div id="thridPage" class="hide">
 <p>The advantages of the VHR-road dataset can be summarized as follows:
