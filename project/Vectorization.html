@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Holistic Vectorization of Geographical Elements from Large-Size Remote Sensing Imagery</title>
+	<link type="text/css" href="/project/head/system.css" rel="stylesheet"/>
+	<link type="text/css" href="/project/head/custom.css" rel="stylesheet"/>
+	<script type="text/javascript" src="/project/head/custom.js"></script>
+</head>
+
+<body marginheight="0">
+<div align="center"><h1>Holistic Vectorization of Geographical Elements from Large-Size Remote Sensing Imagery <br></h1></div>
+
+<p style="text-align: center">Yansheng Li, Wanchun Li, Bo Dang, Yu Wang, Wei Chen, Lei Wang, Bingnan Yang, Yongjun Zhang</p>
+
+<p style="text-align: center">
+	<a href="#abstract" style="color: #2b5068;">Abstract</a> |
+	<a href="#PFNet" style="color: #2b5068;">PFNet</a> |
+	<a href="#IPNet" style="color: #2b5068;">IPNet</a> |
+	<a href="#VHR-road dataset" style="color: #2b5068;">VHR-road dataset</a> |
+	<a href="#codes" style="color: #2b5068;">Codes</a> |
+	<a href="#citation" style="color: #2b5068;">Citation</a> |
+	<a href="#contact" style="color: #2b5068;">Contact</a>
+</p>
+
+<h2 id="abstract">Abstract</h2>
+<p>Large-size very-high-resolution (VHR) remote sensing imagery has emerged as a critical data source for high-precision vector mapping of
+	multi-scale geographical elements such as building, water, road, and so forth. Benefiting from its strong and flexible data learning ability,
+	the deep learning-driven vector mapping technique has become the current mainstream technology. When dealing with the large-size image,
+	due to the limited memory of GPU, the deep learning-based vector mapping methods often employ the sliding block strategy.
+	This inevitably leads to the degenerated performance because of the stitching difficulty of the sliding blocks' vector mapping results. Therefore,
+	it is necessary to exploit the holistic vector mapping technique to leverage large-size VHR remote sensing imagery. To this end,
+	this paper presents a novel global context-aware local point optimization method, which can flexibly support the popular CNN and Transformer architectures,
+	for vector mapping of geographical elements in large-size VHR remote sensing imagery. To leverage the global context in the large-size image,
+	this paper proposes a novel pyramid fusion network (PFNet) to conduct semantic segmentation of the large-size image in an end-to-end manner. Under the constraint of the global semantic segmentation result,
+	a new inflection-point perception network (IPNet) is proposed to generate a set of stable points to depict the boundary of each element. Extensive experiments on building, water and road datasets,
+	where each image has over 100 million pixels, show that our method outperforms the existing vector mapping methods with a large margin.</p>
+	<img src="/figure/framework.pdf" width="800px">
+
+<h2 id="PFNet">PFNet</h2>
+<p>PFNet is meticulously designed for semantic segmentation of large-size VHR remote sensing imagery. Firstly, by employing a hierarchically organized representation of the large-size VHR image,
+	PFNet can conduct a comprehensive analysis of information across different field-of-views. Subsequently,
+	an Adaptive Fusion Architecture (AFA) is proposed to fuse information from different field-of-views.
+	Finally, PFNet leverages a novel pyramid fusion loss to balance the contribution from different layers,
+	ensuring robust semantic segmentation of geographical elements in large-size VHR remote sensing imagery.</p>
+<img src="/figure/pfnet.pdf" width="800px">
+  
+<h2 id="IPNet">IPNet</h2>
+<p> IPNet is specifically designed for refining the coarse contour of each instance in the semantic segmentation result
+	by moving the coarse boundary points to inflection-points.
+	Initially, we obtain coarse points by tracking boundary from the semantic segmentation result,
+	and perturbations are added to coarse points to obtain the perturbed points,
+	which is unnecessary during the inference stage.
+	One point-to-point pair construction process is established by associating these perturbed points with their corresponding label points.
+	Subsequently, 
+	image patches centered on the perturbed points are fed into an effective Semantic-Guided Point Perception Architecture (SPA) to detect inflection-points,
+	and a joint structure-semantic loss is applied to supervise this process.</p>
+<img src="/figure/ipnet.pdf" width="800px">
+
+<h2 id="VHR-road dataset">VHR-road dataset</h2>
+<p> Until now,
+	the existing road datasets for remote sensing imagery typically treat roads as linear targets,
+	often neglecting the width attribute of the roads.
+	At the same time, these datasets fail to fully cater to the characteristics of large-size VHR remote sensing images.
+	To address this issue, we propose a groundbreaking dataset: VHR-road.
+	The VHR-road dataset endows roads with the attribute of width.
+	The dataset comprises 208 images,
+	each sized at 12,500 x 12,500 pixels,
+	with a spatial resolution of 0.200 meters.
+	These images are poised to address the current challenges in complete road extraction from large-size VHR remote sensing images,
+	providing researchers with a more comprehensive dataset to foster further exploration and development in this field.</p>
+<div style="border: 9px solid #FFFFFF"></div>
+<div id = "tab3" class = "tabMenu">
+	<ul>
+	<li class="on"><h4>Data collection</h4></li>
+	<li class="off"><h4>Data annotation</h4></li>
+	<li class="off"><h4>Advantage analysis</h4></li>
+		</ul>
+	<div id="firstPage" class="show">
+		<p>The VHR-road dataset was curated from the BDORTHO database of the French National Institute of Geographic and Forest Information\footnote{https://geoservices.ign.fr/bdortho}.
+			The imagery spans from approximately 2010 onwards, 
+			with updates occurring every 3-4 years.
+			The most recent images in the dataset are dated to the year 2022.
+			It is worth noting that there exists temporal variability among the provinces.
+			While some provinces exhibit a complete time series, others lack recent imagery updates.
+			To align the dataset as closely as possible with the utilized foundational label data,
+			the selected images for this dataset were predominantly collected in the years 2017, 2018, and 2019.
+			This strategic selection ensures temporal consistency, enhancing compatibility with the associated baseline label data.</p>
+	</div>
+	<div id="secondPage" class= "hide">
+		<p>Prior to the commencement of data annotation,
+			an initial step involved the extraction of all road categories from the Urban Atlas land cover classification labels\footnote{https://land.copernicus.eu/local/urban-atlas/urban-atlas-2018},
+			serving as the foundational baseline for subsequent annotation efforts.
+			
+			The comprehensive annotation process encompassed three distinct stages.
+			Firstly, a rigorous training program was conducted to equip annotators with the necessary skills and guidelines.
+			Following the training phase,
+			fine annotation was executed,
+			wherein annotators meticulously marked road boundaries within the collected images using ArcGIS software.
+			In cases where ambiguity arose,
+			reference to Google Maps of the corresponding areas was made to facilitate the annotation process.
+			The final stage involved a meticulous checking process conducted by domain experts.
+			This phase aimed to validate the accuracy of the annotations,
+			ensuring precision in boundary delineation,
+			detecting and rectifying any potential redundancies or omissions.
+			Moreover, each identified issue from the checking process was addressed to guarantee the overall quality and reliability of the annotated dataset,
+			which sufficiently fulfills the necessities for the algorithmic evaluation.
+			Some annotated samples in our dataset are shown in \figref{fig:vhrroad}.</p>
+		<img src="/figure/vhrroad.pdf" width="800px">	
+</div>
+<div id="thridPage" class="hide">
+<p>The advantages of the VHR-road dataset can be summarized as follows:
+	\begin{itemize}
+		\item \textbf{Large-Size Image.}
+		The dataset is specifically tailored to address challenges associated with large-size VHR remote sensing images,
+		where the size of each image is up to 12,500 $\times$ 12,500 pixels, closely resembling the size of an entire scene image acquired by satellites.
+		\item \textbf{Very-High-Resolution.}
+		The dataset provides VHR imagery with a resolution of up to 0.2 meters per pixel,
+		which is a crucial advantage for detailed feature description, lying a solid foundation for high-precision mapping.
+		\item \textbf{Road Width Attribute.}
+		Unlike conventional road datasets, the VHR-road dataset considers the width attribute of roads, allowing for a more accurate representation of road characters.
+	\end{itemize}</p>
+</div>
+<div style="border: 9px solid #FFFFFF"></div>
+
+
+<h2 id="codes">Codes</h2>
+<li style="margin-top: 5px" class = "dot"><span class = "lin">Codes: <a href=""><b>Comming soon</b></a> </span></li>
+
+<h2 id="citation">Citation</h2>
+<pre>
+XXX
+</pre>
+
+<h2 id="contact">Contact</h2>
+<p>If you have any problems or feedback with the project, please contact: wanchun.li@whu.edu.cn</p>
+
+<script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5ipjknzdtma&amp;m=2&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+<a href="https://info.flagcounter.com/hENQ"><img src="https://s11.flagcounter.com/count2/hENQ/bg_FFFFFF/txt_000000/border_CCCCCC/columns_7/maxflags_12/viewers_0/labels_0/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+<div style="border:40px solid #FFFFFF"></div>
+</body>
+</html>
